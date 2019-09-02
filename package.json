@@ -2,15 +2,17 @@
   "name": "my-portfolio-git",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://Zhixin-Jack-Wang.github.io/",
   "dependencies": {
     "node-sass": "^4.12.0",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.1.1",
+    "react-spring": "^8.0.27",
+    "resize-observer-polyfill": "^1.5.1",
     "styled-components": "^4.3.2"
   },
-  "homepage": "https://Zhixin-Jack-Wang.github.io/portfolio",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

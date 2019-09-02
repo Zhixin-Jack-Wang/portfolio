@@ -1,5 +1,4 @@
 import React from "react";
-import { directive } from "@babel/types";
 import styled from "styled-components";
 
 const Project = ({ index, title, description, imgArr, github, web }) => {

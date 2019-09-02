@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import Dropdown from "../styles/Dropdown";
+import Dropdown from "./styled/Dropdown";
 const Navbar = () => {
   const [value, setValue] = useState({ renderOverlay: false, clicked: false });
   const items = useRef(null);
@@ -45,7 +45,6 @@ const Navbar = () => {
         <Link to="/">
           <span className="nav-brand">Zhixin Wang</span>
         </Link>
-
         <Dropdown>
           <div className="hamburger" onClick={clickHandler} ref={ham}>
             <div className="hamburger-line" />
