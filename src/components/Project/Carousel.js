@@ -1,104 +1,152 @@
 import React, { useState, useRef, useEffect } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+import Swipe from "react-easy-swipe";
+import { Dot } from "./svg";
+import slide1 from './img/slide1.PNG'
+import slide2 from './img/slide2.PNG'
+import slide3 from './img/slide3.PNG'
+import slide4 from './img/slide4.PNG'
 const Carousel = () => {
   const gallery = [
-    "https://picsum.photos/200/300",
-    "https://picsum.photos/300/300",
-    "https://picsum.photos/400/400",
-    "https://picsum.photos/500/500",
-    "https://picsum.photos/500/600",
+    slide1,
+    slide2,
+    slide3,
+    slide4,
   ];
   const [curr, setCurr] = useState(0);
-  const dotHandler = e => {
-    e.preventDefault();
-    console.log(e.target.innerHTML);
-    setCurr(parseInt(e.target.innerHTML));
+  const [clickDot, setDot] = useState(0);
+
+  //click dot
+  const dotHandler = index => {
+    setCurr(index);
+    setDot(index);
   };
+
+  //click arrow
   const arrowHandler = e => {
     e.preventDefault();
-    if (e.target === left.current) {
-      if (curr > 0) setCurr(curr - 1);
-      else setCurr(gallery.length - 1);
-    } else {
-      if (curr >= gallery.length - 1) {
-        setCurr(0);
-      } else setCurr(curr + 1);
-    }
+    if (e.target === left.current) prevPic();
+    else nextPic();
   };
-  const left = useRef();
-  useEffect(()=>{
-      console.log(curr+1);
-      const interval = setInterval(()=>curr>=gallery.length-1?setCurr(0):setCurr(curr+1),3000);
-    
-    return ()=>clearInterval(interval);
 
-        
-    // setTimeout(()=>curr===gallery.length-1?setCurr(0):setCurr(curr+1),4000);
-  },[curr,gallery.length])
+  //swipe on phone
+  const onSwipeLeft = event => {
+    nextPic();
+  };
+  const onSwipeRight = event => {
+    prevPic();
+  };
+
+  //select picture
+  const nextPic = () =>
+    curr >= gallery.length - 1 ? setCurr(0) : setCurr(curr + 1);
+  const prevPic = () =>
+    curr <= 0 ? setCurr(gallery.length - 1) : setCurr(curr - 1);
+
+  //ref
+  const left = useRef();
+
+  //auto scroll
+  useEffect(() => {
+    const interval = setInterval(nextPic, 3000);
+    setDot(curr);
+    return () => clearInterval(interval);
+  }, [curr, gallery.length]);
+  console.log('rendered');
+
+  //return
   return (
     <DivWrapper pic={gallery[curr]}>
-      <div className="img-wrapper">
-        <span
-          className="control-arrow-prev  control-arrow"
-          ref={left}
-          onClick={arrowHandler}
-        >
-          &lt;
-        </span>
-        <span
-          className="control-arrow-next control-arrow"
-          onClick={arrowHandler}
-        >
-          &gt;
-        </span>
-      </div>
+      <Swipe onSwipeLeft={onSwipeLeft} onSwipeRight={onSwipeRight}>
+        <div className="gallery">
+          <div
+            className="control-arrow-prev  control-arrow"
+            ref={left}
+            onClick={arrowHandler}
+          >
+            &lt;
+          </div>
+          <div
+            className="control-arrow-next control-arrow"
+            onClick={arrowHandler}
+          >
+            &gt;
+          </div>
+        </div>
+      </Swipe>
       <div className="control-dot">
         {gallery.map((e, index) => (
-          <div className="dot" onClick={dotHandler}>
-           {index}
-          </div>
+          <Dot key={index} index={index} click={dotHandler} opacity={index===clickDot?1:0.5} />
         ))}
       </div>
+      <div></div>
     </DivWrapper>
   );
 };
 
 export default Carousel;
 
+const dot = keyframes`
+    0%{
+        transform: scale(1);
+    }
+    100%{
+        transform: scale(1.5);
+    }
+`;
 const DivWrapper = styled("div")`
-  .img-wrapper {
+  .gallery {
     width: 100%;
-    height: 300px;
-    position: relative;
-    background-image: url(${props => props.pic});
+    height: 50vh;
     display: flex;
+    position: relative;
     align-items: center;
+    background-image: url(${props => props.pic});
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
     .control-arrow {
+      width:3rem;
+      height:3rem;
       position: absolute;
-      font-size: 72px;
-      color: yellow;
-      font-weight: bold;
+      display:flex;
       padding: none;
       margin: none;
+      align-items:center;
+      justify-content:center;
+      border-radius:50%;
+      background-color: white;
+      color: black;
+      opacity:0.4;
+      font-size: 3rem;
+      font-weight: bold;
+      cursor: pointer;
+      user-select:none;
+      &:hover{
+        opacity:1;
+     }
       &-prev {
-        left: 50px;
-        color: red;
+        left: 30px;
       }
       &-next {
-        right: 50px;
+        right: 30px;
       }
     }
-  }
-  .dot {
-    height: 1rem;
-    width: 1rem;
-    background-color: white;
-    border-radius: 50%;
-    cursor:pointer;
   }
   .control-dot {
     width: 100%;
     display: flex;
     justify-content: space-evenly;
+    margin-top:1rem;
+    .dot {
+      cursor: pointer;
+      /* opacity: 0.5; */
+      &:hover {
+        animation: ${dot} 0.5s ease-in-out alternate infinite;
+      }
+      &:active {
+        opacity: 1;
+      }
+    }
   }
 `;

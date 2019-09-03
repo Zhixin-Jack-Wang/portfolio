@@ -4,7 +4,6 @@ import Menu from "../Menu/Menu";
 import About from "../About/About";
 import Welcome from "../Welcome/Welcome";
 import Project from "../Project/Project";
-
 import { useTransition, animated } from "react-spring";
 import "./main.scss";
 
