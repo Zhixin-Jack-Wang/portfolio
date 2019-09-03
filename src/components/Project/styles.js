@@ -1,5 +1,9 @@
 import React from "react";
 import styled from "styled-components";
+
+export const SectionWrapper = styled.section`
+  position: absolute;
+`
 export const DivWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -13,11 +17,16 @@ export const DivWrapper = styled.div`
     }
     .project-link {
       align-self: center;
+      a{
+        text-decoration:none;
+      }
       &-btn {
-        width: 4rem;
+        cursor:pointer;
+        width: 5rem;
         height: 2rem;
         border-radius: 4px;
         border: none;
+        font-weight:bold;
         &.btn-git {
           margin-right: 0.5rem;
         }
@@ -32,14 +41,28 @@ export const DivWrapper = styled.div`
     width: 60%;
     align-self: center;
   }
-
-  `;
+`;
 
 export const Description = styled.div`
   padding: 0rem 2rem;
+  margin-bottom:2rem;
   font-size: 1.1rem;
-  p {
-    padding: 0 0 0 1rem;
+  .summary {
+    &-content {
+      padding: 0 0 0 1rem;
+    }
   }
-
-`
+  .feature {
+    padding: 0 0 0 1rem;
+    .feature-content {
+      display: flex;
+      justify-content: space-evenly;
+      .feature-pic {
+        width: 17rem;
+      }
+      .feature-desc {
+        width: 40%;
+      }
+    }
+  }
+`;

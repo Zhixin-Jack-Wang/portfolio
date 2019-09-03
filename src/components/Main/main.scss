@@ -41,9 +41,9 @@ body::after{
 .content{
     grid-column: 2/3;
     grid-area:content;
+    position: relative;
     color:white;
     background-color: $dark-main;
     overflow-y:scroll;  
     overflow-x:hidden;
-
 }

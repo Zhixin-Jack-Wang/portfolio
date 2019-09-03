@@ -14,12 +14,10 @@ const Carousel = () => {
     slide4,
   ];
   const [curr, setCurr] = useState(0);
-  const [clickDot, setDot] = useState(0);
 
   //click dot
   const dotHandler = index => {
     setCurr(index);
-    setDot(index);
   };
 
   //click arrow
@@ -38,10 +36,12 @@ const Carousel = () => {
   };
 
   //select picture
-  const nextPic = () =>
+  const nextPic = () =>{
     curr >= gallery.length - 1 ? setCurr(0) : setCurr(curr + 1);
-  const prevPic = () =>
+  }
+  const prevPic = () =>{
     curr <= 0 ? setCurr(gallery.length - 1) : setCurr(curr - 1);
+  }
 
   //ref
   const left = useRef();
@@ -49,7 +49,6 @@ const Carousel = () => {
   //auto scroll
   useEffect(() => {
     const interval = setInterval(nextPic, 3000);
-    setDot(curr);
     return () => clearInterval(interval);
   }, [curr, gallery.length]);
   console.log('rendered');
@@ -76,7 +75,7 @@ const Carousel = () => {
       </Swipe>
       <div className="control-dot">
         {gallery.map((e, index) => (
-          <Dot key={index} index={index} click={dotHandler} opacity={index===clickDot?1:0.5} />
+          <Dot key={index} index={index} click={dotHandler} opacity={index===curr?1:0.5} />
         ))}
       </div>
       <div></div>
